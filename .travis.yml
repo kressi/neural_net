@@ -8,6 +8,9 @@ virtualenv:
 before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-scikits-learn
 
+install:
+  - pip install -r requirements-travis.yml
+
 script: nosetests pattern_recognition/test
 
 deploy:
