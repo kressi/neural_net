@@ -1,5 +1,12 @@
 neural_net
 ==========
+<a href="https://travis-ci.org/kressi/neural_net"><img src="https://travis-ci.org/kressi/neural_net.svg?branch=master" alt="Build Status" /></a>
+
+http://kressi.github.io/neural_net
+
+Api
+---
+url: http://neural-net.herokuapp.com/
 
 - http://neuralnetworksanddeeplearning.com/index.html
 - http://yann.lecun.com/exdb/publis/pdf/simard-00.pdf
