@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-scikits-learn
 
 install:
-  - pip install -r requirements-travis.yml
+  - pip install -r requirements-travis.txt
 
 script: nosetests pattern_recognition/test
 
