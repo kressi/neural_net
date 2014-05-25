@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-scikits-learn
 
 install:
-  - pip install -r requirements-travis.txt
+  - pip install -r requirements.txt
 
 script: nosetests pattern_recognition/test
 
@@ -18,4 +18,6 @@ deploy:
   app:
     master: neural-net
   api_key: b3f1822f-cc5b-459f-a7d6-d13ded0db51d
+  run:
+    - "pip install -r requirements-heroku.txt"
 
