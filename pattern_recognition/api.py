@@ -1,13 +1,21 @@
 import os
+import simplejson as json
 from flask import Flask
 from flask import request
 
 app = Flask(__name__)
 
-@app.route("/api")
 @app.route("/")
+def index():
+  return "https://github.com/kressi/neural_net"
+
+@app.route("/api")
 def api():
-  return "api"
+  return json.dumps({'train_with_mnist': 'http://neural-net.herokuapp.com/train-mnist',
+                     'train': 'http://neural-net.herokuapp.com/train',
+                     'reset_neural_net': 'http://neural-net.herokuapp.com/reset',
+                     'recognize_pattern': 'http://neural-net.herokuapp.com/recognize-pattern'
+                    }, sort_keys=True, indent=4 * ' ')
 
 @app.route("/train-mnist")
 def train_mnist():
@@ -21,7 +29,7 @@ def train():
 def reset():
   return "neural net reset"
 
-@app.route("/recognize", methods=["POST"])
+@app.route("/recognize_pattern", methods=["POST"])
 def recognize():
   f = request.files['the_file']
   return "recognize pattern"

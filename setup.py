@@ -7,6 +7,7 @@ setup(
     "numpy",
     "scikit-learn",
     "scipy",
-    "flask"
+    "flask",
+    "simplejson"
   ]
 )
