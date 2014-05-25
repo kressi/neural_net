@@ -19,4 +19,5 @@ deploy:
   app:
     master: neural-net
   api_key: b3f1822f-cc5b-459f-a7d6-d13ded0db51d
+  run: "python hello.py"
 
