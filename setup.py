@@ -7,7 +7,6 @@ setup(
     "numpy",
     "scikit-learn",
     "scipy",
-    "flask",
-    "gunicorn"
+    "flask"
   ]
 )
