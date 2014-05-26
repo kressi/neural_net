@@ -3,6 +3,8 @@ import simplejson as json
 from flask import Flask
 from flask import request
 
+from redis_connector import redis
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -27,7 +29,8 @@ def train():
 
 @app.route("/reset")
 def reset():
-  return "neural net reset"
+  count=redis.delete('nn')
+  return "net reset, %d records deleted from redis" % count
 
 @app.route("/recognize_pattern", methods=["POST"])
 def recognize():
