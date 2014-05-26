@@ -6,7 +6,7 @@ http://kressi.github.io/neural_net
 
 Api
 ---
-url: http://neural-net.herokuapp.com/api
+http://neural-net.herokuapp.com/api
 
 Documents
 ---------

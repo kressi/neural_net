@@ -2,6 +2,7 @@ import os
 import simplejson as json
 from flask import Flask
 from flask import request
+from flask import render_template
 
 from redis_connector import redis
 
@@ -13,11 +14,12 @@ def index():
 
 @app.route("/api")
 def api():
-  return json.dumps({'train_with_mnist': 'http://neural-net.herokuapp.com/train-mnist',
-                     'train': 'http://neural-net.herokuapp.com/train',
-                     'reset_neural_net': 'http://neural-net.herokuapp.com/reset',
-                     'recognize_pattern': 'http://neural-net.herokuapp.com/recognize-pattern'
-                    }, sort_keys=True, indent=4 * ' ')
+  pretty_api=json.dumps({'train_with_mnist': 'http://neural-net.herokuapp.com/train-mnist',
+                         'train': 'http://neural-net.herokuapp.com/train',
+                         'reset_neural_net': 'http://neural-net.herokuapp.com/reset',
+                         'recognize_pattern': 'http://neural-net.herokuapp.com/recognize-pattern'
+                        }, sort_keys=True, indent=4 * ' ')
+  return render_template('pre_code.html', body=pretty_api)
 
 @app.route("/train-mnist")
 def train_mnist():
