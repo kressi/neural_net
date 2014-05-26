@@ -23,3 +23,4 @@ Numpy and Scipy are required for Scikit-learn to run, they cannot simply be inst
 On travis the same issue occurs. However, it can be avoided by installing Numpy and Scipy with apt before installation. By enabling system_site_packages in virtualenv travis uses those packages. Scikit-learn is also installed through apt, just because it is much faster than building it with pip.
 
 To use custom buildpacks, the application must be deployed using git. Travis by default deploys with <a href="https://github.com/ddollar/anvil">Anvil</a>, therefore strategy Git must be set.
+
