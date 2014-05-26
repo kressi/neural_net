@@ -34,7 +34,7 @@ def reset():
   count=redis.delete('nn')
   return "net reset, %d records deleted from redis" % count
 
-@app.route("/recognize_pattern", methods=["POST"])
+@app.route("/recognize-pattern", methods=["POST"])
 def recognize():
   f = request.files['the_file']
   return "recognize pattern"
