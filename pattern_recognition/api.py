@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-  return "https://github.com/kressi/neural_net"
+  return 'Github project of <a href="https://github.com/kressi/neural_net">neural_net</a>'
 
 @app.route("/api")
 def api():
