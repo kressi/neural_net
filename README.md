@@ -16,7 +16,10 @@ Documents
 
 Heroku
 ------
-Numpy and Scipy are required for Scikit-learn to run, they cannot simply be installed on Heroku though. Those packages need a Fortran compiler and different libraries for installation, which are not available on Heroku. In order to make them work Heroku requires a custom Python buildpack with Numpy and Scipy included.
-https://github.com/kressi/heroku-buildpack-python-sklearn
+https://blog.dbrgn.ch/2013/6/18/heroku-buildpack-numpy-scipy-scikit-learn/
+
+Numpy and Scipy are required for Scikit-learn to run, they cannot simply be installed on Heroku though. Those packages need a Fortran compiler and different libraries for installation, which are not available on Heroku. In order to make them work Heroku requires a custom Python buildpack with Numpy and Scipy included. (https://github.com/kressi/heroku-buildpack-python-sklearn)
+
+On travis the same issue occurs. However, it can be avoided by installing Numpy and Scipy with apt before installation. Scikit-learn is also installed with apt, just because it is much faster than building it with pip.
 
 To use custom buildpacks, the application must be deployed using git. Travis by default deploys with <a href="https://github.com/ddollar/anvil">Anvil</a>, therefore strategy Git must be set.
