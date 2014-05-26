@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-  name="PatternRecognition",
+  name="pattern_recognition",
   version="0.1",
   install_requires=[
     "numpy",
