@@ -6,7 +6,7 @@ var lineSize = 0;
 init();
 
 function init () {
-  canvas = document.getElementById('imageView');
+  canvas = document.getElementById("imageView");
   context = canvas.getContext("2d");
   context.lineJoin = "round";
   changeLineSize();
@@ -71,9 +71,19 @@ function ev_canvas (ev) {
 
 function clearCanvas(){
   canvas.width = canvas.width;
+  changeLineSize();
 }
 
-function createPostRequest(){}
+function createPostRequest(){
+  placeholderCanvas = document.getElementById("resizedImage");
+  context2 = placeholderCanvas.getContext("2d");
+  var img = new Image();
+  img.src = canvas.toDataURL("image/png");
+  img.onload = function() {
+       context2.drawImage(img, 0, 0, 28, 28);
+    };
+  //window.location = canvas.toDataURL("image/png");   
+}
 
 function changeLineSize(){
   context.lineWidth = document.getElementById("linestyle").value;
