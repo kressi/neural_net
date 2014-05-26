@@ -18,6 +18,3 @@ var/
 .installed.cfg
 *.egg
 
-# Do not check data each time
-data/
-
