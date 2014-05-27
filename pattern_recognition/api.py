@@ -10,7 +10,7 @@ import os
 import simplejson as json
 from flask import Flask
 from flask import request
-from flask import render_template
+from flask import Response
 
 # My library
 import net_runner
@@ -30,7 +30,7 @@ def api():
                          'reset_neural_net': 'http://neural-net.herokuapp.com/reset',
                          'recognize_pattern': 'http://neural-net.herokuapp.com/recognize-pattern'
                         }, sort_keys=True, indent=4 * ' ')
-  return render_template('pre_code.html', body=pretty_api)
+  return Response(pretty_api, mimetype='application/json')
 
 @app.route("/train-mnist")
 def train_mnist():
@@ -38,7 +38,7 @@ def train_mnist():
 
 @app.route("/train", methods=["POST"])
 def train():
-  return "train neural net with single letter"
+  return "train neural net with single letter - not implemented yet"
 
 @app.route("/reset")
 def reset():
@@ -48,7 +48,8 @@ def reset():
 @app.route("/recognize-pattern", methods=["POST"])
 def recognize():
   pattern = request.get_json()['pattern']
-  return net_runner.recognize_pattern(pattern)
+  result = net_runner.recognize_pattern(pattern)
+  return Response(str(result), mimetype='application/json')
 
 if __name__ == "__main__":
   port = int(os.environ.get("PORT", 5000))
