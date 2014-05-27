@@ -1,10 +1,21 @@
+"""
+	api
+~~~
+
+"""
+
+#### Libraries
+# Standard library
 import os
 import simplejson as json
 from flask import Flask
 from flask import request
 from flask import render_template
 
-from redis_connector import redis
+# My library
+import net_runner
+from .redis_connector import redis
+
 
 app = Flask(__name__)
 
@@ -23,7 +34,7 @@ def api():
 
 @app.route("/train-mnist")
 def train_mnist():
-  return "training neural net with mnist training data"
+  net_runner.train_mnist()
 
 @app.route("/train", methods=["POST"])
 def train():
@@ -31,7 +42,7 @@ def train():
 
 @app.route("/reset")
 def reset():
-  count=redis.delete('nn')
+  count=redis.delete('nn-status')
   return "net reset, %d records deleted from redis" % count
 
 @app.route("/recognize-pattern", methods=["POST"])

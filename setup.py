@@ -9,6 +9,6 @@ setup(
     "scipy",
     "flask",
     "simplejson",
-    "redis"
+    "redis",
   ]
 )
