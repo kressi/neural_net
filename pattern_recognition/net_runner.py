@@ -28,7 +28,7 @@ def train_mnist_worker():
     net = Network([784, 15, 10])
     training_data, validation_data, test_data = load_data_wrapper()
     redis.set(redis_key('status'), 'train_mnist: training with mnist data')
-    net.SGD(training_data, 1, 2, 0.1, 0.0001)
+    net.SGD(training_data, 30, 2, 0.1, 0.0001)
     redis.set(redis_key('data'), net.tostring())
     redis.set(redis_key('status'), 'train_mnist: trained')
 
