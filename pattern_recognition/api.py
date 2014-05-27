@@ -47,8 +47,8 @@ def reset():
 
 @app.route("/recognize-pattern", methods=["POST"])
 def recognize():
-  f = request.files['the_file']
-  return "recognize pattern"
+  pattern = request.get_json()['pattern']
+  return net_runner.recognize_pattern(pattern)
 
 if __name__ == "__main__":
   port = int(os.environ.get("PORT", 5000))
