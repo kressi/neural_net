@@ -28,8 +28,7 @@ def train_mnist_worker():
     training_data, validation_data, test_data = load_data_wrapper()
     redis.set('nn-status', 'train_mnist: training with mnist data')
     net.SGD(training_data, 20, 2, 0.1, 0.0001)
-    redis.set('nn-weights', cPickle.dumps(net.weights))
-    redis.set('nn-biases', cPickle.dumps(net.biases))
+    redis.set('nn-data', net.tostring())
     redis.set('nn-status', 'train_mnist: trained')
 
 

@@ -296,6 +296,13 @@ class Network():
         json.dump(data, f)
         f.close()
 
+    def tostring(self):
+        data = {"sizes": self.sizes,
+                "weights": [w.tolist() for w in self.weights],
+                "biases": [b.tolist() for b in self.biases],
+                "cost": str(self.cost.__name__)}
+        return json.dumps(data)
+
 #### Loading a Network
 def load(filename):
     """Load a neural network from the file ``filename``.  Returns an
@@ -305,6 +312,14 @@ def load(filename):
     f = open(filename, "r")
     data = json.load(f)
     f.close()
+    cost = getattr(sys.modules[__name__], data["cost"])
+    net = Network(data["sizes"], cost=cost)
+    net.weights = [np.array(w) for w in data["weights"]]
+    net.biases = [np.array(b) for b in data["biases"]]
+    return net
+
+def loads(datas):
+    data = json.loads(datas)
     cost = getattr(sys.modules[__name__], data["cost"])
     net = Network(data["sizes"], cost=cost)
     net.weights = [np.array(w) for w in data["weights"]]
