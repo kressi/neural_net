@@ -34,7 +34,7 @@ def train_mnist_worker():
 def recognize_pattern(data):
     if not redis.exists('status'):
         return 'net not trained'
-    elif redis.get(redis_key('status') == 'train_mnist: trained':
+    elif redis.get(redis_key('status')) == 'train_mnist: trained':
         return 'training of net not finished'
     else:
         net = loads(redis.get(redis_key('data')))
