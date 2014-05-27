@@ -34,7 +34,7 @@ def api():
 
 @app.route("/train-mnist")
 def train_mnist():
-  net_runner.train_mnist()
+  return net_runner.train_mnist()
 
 @app.route("/train", methods=["POST"])
 def train():
