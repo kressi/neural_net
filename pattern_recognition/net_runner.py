@@ -9,9 +9,9 @@ train_mnist
 import cPickle
 
 # My library
-from .network import Network
-from .mnist_loader import load_data_wrapper
-from .redis_connector import redis
+from network import Network
+from mnist_loader import load_data_wrapper
+from redis_connector import redis
 
 
 def train_mnist():

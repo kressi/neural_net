@@ -14,7 +14,7 @@ from flask import render_template
 
 # My library
 import net_runner
-from .redis_connector import redis
+from redis_connector import redis
 
 
 app = Flask(__name__)
