@@ -35,7 +35,9 @@ all attributes except success are optional.
 ### methods
 
 **train-mnist**
+
 net will be created and trained. an already existing net, currently, cannot be trained.
+
 request:
 ```
 {
