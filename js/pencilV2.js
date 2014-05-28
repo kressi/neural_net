@@ -2,12 +2,15 @@
 
 // The mousemove event handler.
 var started = false;
+var pictureWidth = 28;
+var pictureHeigth = 28;
 init();
 
 function init () {
   canvas = document.getElementById("imageView");
   context = canvas.getContext("2d");
   context.lineJoin = "round";
+  context.fillStyle = "Black";
   setLineWidth(10);
   tool = new tool_pencil();
   
@@ -82,12 +85,47 @@ function setLineWidth(width){
 }
 
 function createPostRequest(){
+  var imageData = context.getImageData(0,0,10,10);
   placeholderCanvas = document.getElementById("resizedImage");
   context2 = placeholderCanvas.getContext("2d");
   var img = new Image();
   img.src = canvas.toDataURL("image/png");
   img.onload = function() {
-       context2.drawImage(img, 0, 0, 28, 28);
+       context2.drawImage(img, 0, 0, pictureWidth, pictureHeigth);
     };
+  //aparently getImageData cant read the canvas right after the image was drawn onto it, therefor the timeout  
+  window.setTimeout(fillArray,50);
+}
+function fillArray(){ 
+  var imageData = context2.getImageData(0,0,pictureWidth,pictureHeigth);  
+  var pixelArray = new Array(pictureWidth*pictureHeigth);
+   //every pixel is described by the red, blue , green and alpha value, therfore the length is divided by 4 
+  var arrayLength = imageData.data.length / 4;
+  for (var i=0;i < arrayLength;i++){
+    pixelArray[i] = imageData.data[i*4 + 3] / 255; //moving  the alpha value
+  } 
+  var obj={};
+  obj.pattern = pixelArray;
+  var jsonArray = JSON.stringify(obj);
+  console.log(jsonArray);
+  $.ajax({
+    type: 'POST',
+    url: 'http://neural-net.herokuapp.com/recognize-pattern',
+    crossDomain: true,
+    data: jsonArray, 
+    dataType: 'json',
+    success: printResult,
+    error: printError
+  });  
+
+  //clear the placeholder canvas
+  placeholderCanvas.width = placeholderCanvas.width;
   //window.location = canvas.toDataURL("image/png");   
+}
+
+function printResult(data,b,c){
+  window.alert("success!");
+}
+function printError(a,b,error){
+  window.alert(error);
 }
