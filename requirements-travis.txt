@@ -2,6 +2,7 @@ numpy
 scipy
 scikit-learn
 flask
+flask-cors
 simplejson
 redis
 
