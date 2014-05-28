@@ -2,20 +2,23 @@
 
 // The mousemove event handler.
 var started = false;
-var lineSize = 0;
 init();
 
 function init () {
   canvas = document.getElementById("imageView");
   context = canvas.getContext("2d");
   context.lineJoin = "round";
-  changeLineSize();
+  setLineWidth(10);
   tool = new tool_pencil();
   
   // Attach the mousedown, mousemove and mouseup event listeners.
   canvas.addEventListener('mousedown', ev_canvas, false);
   canvas.addEventListener('mousemove', ev_canvas, false);
   canvas.addEventListener('mouseup',   ev_canvas, false);
+
+  // Add eventhandler for the buttons
+  $("#clear").click(clearCanvas);
+  $("#send").click(createPostRequest);
 }
 
 // This painting tool works like a drawing pencil which tracks the mouse
@@ -71,7 +74,11 @@ function ev_canvas (ev) {
 
 function clearCanvas(){
   canvas.width = canvas.width;
-  changeLineSize();
+  setLineWidth(10);
+}
+
+function setLineWidth(width){
+  context.lineWidth = width;
 }
 
 function createPostRequest(){
@@ -83,8 +90,4 @@ function createPostRequest(){
        context2.drawImage(img, 0, 0, 28, 28);
     };
   //window.location = canvas.toDataURL("image/png");   
-}
-
-function changeLineSize(){
-  context.lineWidth = document.getElementById("linestyle").value;
 }

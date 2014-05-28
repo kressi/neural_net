@@ -1,0 +1,8 @@
+#imageView{ 
+	border: 1px solid #000; 
+}   
+.canvas{
+	position: relative !important;
+	margin-top: 20px;
+	margin-left: 10px;
+}
