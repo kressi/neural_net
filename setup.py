@@ -8,7 +8,8 @@ setup(
     "scikit-learn",
     "scipy",
     "flask",
+    "flask-cors",
     "simplejson",
-    "redis",
+    "redis"
   ]
 )
