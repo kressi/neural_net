@@ -45,6 +45,7 @@ request:
 ```
 {
     "net-id": <string>,
+    "layers": <array>,
     "epochs": <int>,
     "mini-batch-size": <int>,
     "eta": <float>,
