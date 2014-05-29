@@ -17,7 +17,7 @@
         <h3 class="text-muted">Neural Net for recognizing handwritten digits</h3>
         <ul class="nav nav-justified">
           <li><a href="index.html">Digit Recognition</a></li>
-          <li class="active"><a href="options.html">Options</a></li>
+          <li class="active"><a href="options.html">Manage Nets</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -25,6 +25,25 @@
       <div class="row">
         <div class="col-lg-6">
           <h3>Train new neural net</h3>
+          <form role="form">
+            <div class="form-group">
+              <label for="net-id">Net-ID</label>
+              <input type="text" class="form-control" id="net-id" placeholder="your Network idendifier here">
+            </div>
+            <div class="form-group">
+              <label for="lamda">Lmbda</label>
+              <input type="text" class="form-control" id="lmbda" placeholder="your lmbda value here">
+            </div>
+            <div class="form-group">
+              <label for="epochs">Epochs</label>
+              <input type="text" class="form-control" id="epochs" placeholder="your epochs value here">
+            </div>
+            <div class="form-group">
+              <label for="eta">ETA</label>
+              <input type="text" class="form-control" id="eta" placeholder="your ETA value here">
+            </div>
+             <button type="submit" id="createNN" class="btn btn-default">Submit</button>
+          </form>
         </div>
         <div class="col-lg-6"m id="result">
           <h3>Delete an exsiting neural net</h3>

@@ -133,7 +133,7 @@ function printResult(data,b,c){
       if (prob < 1){
         htmlString += "<tr><td>"+i+"</td><td><1</td></tr>";
       }else{
-        htmlString += "<tr><td>"+i+"</td><td>"+prob+"</td></tr>";
+        htmlString += "<tr><td>"+i+"</td><td>"+prob+"%</td></tr>";
       }
     }
     htmlString += "</table></div>";
@@ -141,5 +141,5 @@ function printResult(data,b,c){
   }
 }
 function printError(a,b,error){
-  window.alert(error);
+  window.alert("Something went wrong. Pease try again.");
 }
