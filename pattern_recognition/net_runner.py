@@ -23,7 +23,7 @@ def train_mnist(params={}):
     if redis.exists(redis_key('status', params['net-id'])):
         return {'success': 0, 'message': redis.get(redis_key('status', net_id))}
     else:
-	Process(target=train_mnist_worker, args=([params])).start()
+	Process(target=train_mnist_worker, args=(params,)).start()
         return {'success': 1}
 
 def train_mnist_worker(params):
