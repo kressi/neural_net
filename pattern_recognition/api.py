@@ -69,7 +69,7 @@ def recognize():
     result = net_runner.recognize_pattern(pattern)
     return jsonify(result)
 
-@app.route("/list-nets")
+@app.route("/list-nets", methods=["POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def list_nets():
     nets = filter(lambda x: x.split('-')[-1] == 'data', redis.keys())
