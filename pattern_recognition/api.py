@@ -20,7 +20,7 @@ from redis_connector import redis, redis_key
 
 app = Flask(__name__)
 app.debug=True
-app.config['CORS_ORIGINS'] = ['http://kressi.github.io']
+#app.config['CORS_ORIGINS'] = ['http://kressi.github.io']
 
 @app.route("/")
 def index():
@@ -60,14 +60,17 @@ def delete():
         if key.split('-')[0]==net_id:
             count += redis.delete(key)
     sccs = 1 if count > 0 else 1
-    return jsonify(success=sccs, message='%d records from net %s deleted' % (count, net_id)})
+    return jsonify(success=sccs, message='%d records from net %s deleted' % (count, net_id))
 
-@app.route("/recognize-pattern", methods=["POST", "OPTIONS"])
+@app.route("/list-nets")
 @cross_origin(headers=['Content-Type'])
-def recognize():
-    pattern = request.get_json()['pattern']
-    result = net_runner.recognize_pattern(pattern)
-    return jsonify(result)
+def list_nets():
+    nets = filter(lambda x: x.split('-')[-1] == 'data', redis.keys())
+    if nets.__len__() <= 0:
+        return jsonify(success = 0, message = 'no trained nets found')
+    else:
+        net_ids = map(x.split('-')[0] for x in nets)
+        return jsonify(netids=net_ids)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
