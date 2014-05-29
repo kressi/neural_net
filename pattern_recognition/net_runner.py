@@ -26,22 +26,28 @@ def train_mnist(net_id='nn', params={}):
 
 def train_mnist_worker(net_id, params):
     net_id = params.get('net-id', 'nn')
+    layers = [784]
+    layers.extend(params.get('layers', [15]))
+    layers.append(10)
     net_params                    = {}
     net_params['epochs']          = params.get('epochs', 1)
     net_params['mini_batch_size'] = params.get('mini-batch-size', 4)
     net_params['eta']             = params.get('eta', 0.1)
     net_params['lmbda']           = params.get('lmbda', 0.0001)
+    net_params['layers']          = layers
 
     print json.dumps(net_params)
-
 
     redis.set(redis_key('params', net_id), json.dumps(net_params))
     redis.set(redis_key('status', net_id), 'train_mnist: started')
 
-    net = Network([784, 15, 10])
+    net = Network(layers)
     training_data, validation_data, test_data = load_data_wrapper()
     redis.set(redis_key('status', net_id), 'train_mnist: training with mnist data')
-    net.SGD(training_data, net_params['epochs'], net_params['mini_batch_size'], net_params['eta'], net_params['lmbda'])
+    net.SGD(training_data, net_params['epochs'],
+                           net_params['mini_batch_size'],
+                           net_params['eta'],
+                           net_params['lmbda'])
 
     redis.set(redis_key('data', net_id), net.tostring())
     redis.set(redis_key('status', net_id), 'train_mnist: trained')

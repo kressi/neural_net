@@ -287,16 +287,6 @@ class Network():
             np.linalg.norm(w)**2 for w in self.weights)
         return cost
 
-    def save(self, filename):
-        """Save the neural network to the file ``filename``."""
-        data = {"sizes": self.sizes,
-                "weights": [w.tolist() for w in self.weights],
-                "biases": [b.tolist() for b in self.biases],
-                "cost": str(self.cost.__name__)}
-        f = open(filename, "w")
-        json.dump(data, f)
-        f.close()
-
     def tostring(self):
         data = {"sizes": self.sizes,
                 "weights": [w.tolist() for w in self.weights],
@@ -305,21 +295,9 @@ class Network():
         return json.dumps(data)
 
 #### Loading a Network
-def load(filename):
-    """Load a neural network from the file ``filename``.  Returns an
-    instance of Network.
-
-    """
-    f = open(filename, "r")
-    data = json.load(f)
-    f.close()
-    cost = getattr(sys.modules[__name__], data["cost"])
-    net = Network(data["sizes"], cost=cost)
-    net.weights = [np.array(w) for w in data["weights"]]
-    net.biases = [np.array(b) for b in data["biases"]]
-    return net
-
 def loads(datas):
+    """Load a network from a string
+    """
     data = json.loads(datas)
     cost = getattr(sys.modules[__name__], data["cost"])
     net = Network(data["sizes"], cost=cost)
