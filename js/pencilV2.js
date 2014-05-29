@@ -111,6 +111,7 @@ function fillArray(){
   $.ajax({
     type: 'POST',
     url: 'http://neural-net.herokuapp.com/recognize-pattern',
+    contentType: 'application/json',
     crossDomain: true,
     data: jsonArray, 
     dataType: 'json',
