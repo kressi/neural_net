@@ -28,8 +28,10 @@ all attributes except success are optional.
 | eta             | float   | >= 0, \<1 |
 | lmbda           | float   | >0, \<1   |
 | pattern         | array   | >=0, <=1  | resolution of pattern is 28x28 pixels, each pixel is represented by a float value between 0 (white) and 1 (black). the array consists of all the rows appended to each other: [row1, row2, row3 ..., row28], an array of dimension (1,784)
-| result          | integer |0-9        | the number the neural net recognized in the pattern
+| result          | integer | 0-9       | the number the neural net recognized in the pattern
 | distribution    | array   |           | output of the neural net, the number with the highest value is the number recognized as result by the neural net
+| layers          | array   |           | first layer contains always 784 neurons, resolution of input, last layer contains always 10 neurons, one for each number. with this field number of hidden layers and neurons in those layers can be set. default [15]
+| nets            | map     |           | returns a map of all trained nets, including the parameters they were created and trained with
 
 
 
@@ -111,6 +113,17 @@ response:
 {
     "success": <int>,
     "message": <string>
+}
+```
+
+**list-nets** (PUT)
+
+request: empty
+
+response:
+```
+{
+    "nets": <map>
 }
 ```
 
