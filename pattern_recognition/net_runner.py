@@ -38,8 +38,6 @@ def train_mnist_worker(params):
     net_params['lmbda']           = params.get('lmbda', 0.0001)
     net_params['layers']          = layers
 
-    print json.dumps(net_params)
-
     redis.set(redis_key('params', net_id), json.dumps(net_params))
     redis.set(redis_key('status', net_id), 'train_mnist: started')
 
