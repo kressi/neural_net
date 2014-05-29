@@ -54,7 +54,7 @@ def delete():
         net_id = 'nn'
     else:
         net_id = request.get_json().get('net-id', 'nn')
-    if net_id == 'nn': return jsonify(success=0, message='nn cannot be deleted')
+    if net_id[:2] == 'nn': return jsonify(success=0, message='nn cannot be deleted')
     count=0
     for key in redis.keys():
         if key.split('-')[0]==net_id:
@@ -76,10 +76,11 @@ def list_nets():
     if nets.__len__() <= 0:
         return jsonify(success = 0, message = 'no trained nets found')
     else:
-        net_ids = (x.split('-')[0] for x in nets)
+        net_ids = ('-'.join(x.split('-')[:-1]) for x in nets)
         net_params = dict((key, json.loads(redis.get(redis_key('params', key)))) for key in net_ids)
         return jsonify(nets=net_params)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
