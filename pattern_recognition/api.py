@@ -62,6 +62,13 @@ def delete():
     sccs = 1 if count > 0 else 1
     return jsonify(success=sccs, message='%d records from net %s deleted' % (count, net_id))
 
+@app.route("/recognize-pattern", methods=["POST", "OPTIONS"])
+@cross_origin(headers=['Content-Type'])
+def recognize():
+    pattern = request.get_json()['pattern']
+    result = net_runner.recognize_pattern(pattern)
+    return jsonify(result)
+
 @app.route("/list-nets")
 @cross_origin(headers=['Content-Type'])
 def list_nets():
@@ -69,8 +76,9 @@ def list_nets():
     if nets.__len__() <= 0:
         return jsonify(success = 0, message = 'no trained nets found')
     else:
-        net_ids = map(x.split('-')[0] for x in nets)
-        return jsonify(netids=net_ids)
+        net_ids = list(x.split('-')[0] for x in nets)
+        net_params = (redis.get(redis_key('params', key)) for key in net_ids)
+        return jsonify(nets=net_ids)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
