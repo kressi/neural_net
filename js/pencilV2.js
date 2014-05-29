@@ -125,7 +125,20 @@ function fillArray(){
 }
 
 function printResult(data,b,c){
-  window.alert("success!");
+  if (data.success == 1){
+    var htmlString = "<div class=\"col-lg-3\"><h3>Result</h3><p class=\"bigandfat\">"+data.result+"</p></div>"; 
+    htmlString += "<div class=\"col-lg-3\"><h3>Distribution</h3><table class=\"table table-striped\"><tr><th>Number</th><th>Probability</tr>";
+    for (var i=0;i<data.distribution.length;i++){
+      var prob = data.distribution[i] * 100;
+      if (prob < 1){
+        htmlString += "<tr><td>"+i+"</td><td><1</td></tr>";
+      }else{
+        htmlString += "<tr><td>"+i+"</td><td>"+prob+"</td></tr>";
+      }
+    }
+    htmlString += "</table></div>";
+    $("#result").html(htmlString);
+  }
 }
 function printError(a,b,error){
   window.alert(error);
