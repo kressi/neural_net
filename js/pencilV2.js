@@ -22,6 +22,15 @@ function init () {
   // Add eventhandler for the buttons
   $("#clear").click(clearCanvas);
   $("#send").click(createPostRequest);
+
+  $.ajax({
+  type: 'GET',
+  url: 'http://neural-net.herokuapp.com/list-nets',
+  contentType: 'application/json',
+  crossDomain: true,
+  success: createOptions,
+  error: printError
+  });
 }
 
 // This painting tool works like a drawing pencil which tracks the mouse
@@ -104,10 +113,9 @@ function fillArray(){
   for (var i=0;i < arrayLength;i++){
     pixelArray[i] = imageData.data[i*4 + 3] / 255; //moving  the alpha value
   } 
-  var obj={};
-  obj.pattern = pixelArray;
-  var jsonArray = JSON.stringify(obj);
-  console.log(jsonArray);
+  
+  var jsonArray = JSON.stringify({"pattern":pixelArray,"net-id":$("#netList option:selected").text()});
+  
   $.ajax({
     type: 'POST',
     url: 'http://neural-net.herokuapp.com/recognize-pattern',
@@ -120,8 +128,7 @@ function fillArray(){
   });  
 
   //clear the placeholder canvas
-  placeholderCanvas.width = placeholderCanvas.width;
-  //window.location = canvas.toDataURL("image/png");   
+  placeholderCanvas.width = placeholderCanvas.width;   
 }
 
 function printResult(data,b,c){
@@ -142,4 +149,12 @@ function printResult(data,b,c){
 }
 function printError(a,b,error){
   window.alert("Something went wrong. Pease try again.");
+}
+
+function createOptions(data,x,y){
+  var htmlString2 = "";
+  $.each(data.nets,function(key,value){
+    htmlString2 += "<option>"+key+"<option>";
+  });
+  $("#netList").html(htmlString2);
 }

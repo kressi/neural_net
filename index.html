@@ -36,7 +36,12 @@
           href="http://www.apple.com/safari">Safari</a>, and <a
           href="http://www.konqueror.org">Konqueror</a>.</p>
         </canvas>
-        <p>net id: <input id="netId" type="text" size="10"></p>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="netList" class="control-label">Neural Net to be used: </label>
+            <select id="netList" class="form-control"></select>
+          </div>
+        </form>
       </div>
       <p>
         <button type="button" id="clear" class="btn btn-default">Clear Canvas</button>
