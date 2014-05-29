@@ -40,6 +40,7 @@ def train_mnist():
     if request.method == 'GET':
         return jsonify(net_runner.train_mnist())
     else:
+        print net_runner.train_mnist(request.get_json())
         return jsonify(net_runner.train_mnist(request.get_json()))
 
 @app.route("/train", methods=["POST", "OPTIONS"])
