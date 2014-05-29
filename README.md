@@ -15,24 +15,25 @@ The response will always contain a message in case of an error.
 { "success": 0, "message": "\<error text\>" }
 
 
-### attributes
+### Attributes
 all attributes except success are optional.
 
-- success: integer. 0: unsuccessful execution. 1: successful execution
-- message: string. contains error message in case of unsuccessful exection.
+| Name            | Type    | Values    | Description
+| --------------- | ------- | --------- | -----------
+| success         | integer | 0, 1      | (always returned) 1: success, 0: error
+| message         | string  |           | contains error message
+| net-id          | string  |           | containing id of neural-net. default: 'nn'
+| epochs          | integer |           | number of epochs the neural net has to be trained for. with other values default one epoche takes around 50s to be trained. default: 30
+| mini-batch-size | integer |           | training sets, after how many patterns the result is back propagated. default: 4
+| eta             | float   | >= 0, \<1 |
+| lmbda           | float   | >0, \<1   |
+| pattern         | array   | >=0, <=1  | resolution of pattern is 28x28 pixels, each pixel is represented by a float value between 0 (white) and 1 (black). the array consists of all the rows appended to each other: [row1, row2, row3 ..., row28], an array of dimension (1,784)
+| result          | integer |0-9        | the number the neural net recognized in the pattern
+| distribution    | array   |           | output of the neural net, the number with the highest value is the number recognized as result by the neural net
 
-- net-id: string. containing id of neural-net. default: 'nn'
-- epochs: integer. number of epochs the neural net has to be trained for. with other values default one epoche takes around 50s to be trained. default: 30
-- mini-batch-size: integer. training sets, after how many patterns the result is back propagated. default: 4
-- eta: float. 0 <= eta < 1
-- lmbda: float. 0 < lmbda < 1
-- pattern: array. resolution of pattern is 28x28 pixels, each pixel is represented by a float value between 0 (white) and 1 (black). the array consists of all the rows appended to each other: [row1, row2, row3 ..., row28], this will result in an array of dimension (1,784).
-- result: integer. value between 0 and 9, the number the neural net recognized in the pattern.
-- distribution: array. contains the output of the neural net, the number with the highest value is the number recognized as result by the neural net.
 
 
-
-### methods
+### Methods
 
 **train-mnist**
 
