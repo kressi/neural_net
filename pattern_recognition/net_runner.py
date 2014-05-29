@@ -17,11 +17,13 @@ from mnist_loader import load_data_wrapper
 from redis_connector import redis, redis_key
 
 
-def train_mnist(net_id='nn', params={}):
-    if redis.exists(redis_key('status', net_id)):
+def train_mnist(params={}):
+    if 'net-id' not in params.keys():
+        params['net-id']='nn'
+    if redis.exists(redis_key('status', params['net-id'])):
         return {'success': 0, 'message': redis.get(redis_key('status', net_id))}
     else:
-	Process(target=train_mnist_worker, args=(net_id, params)).start()
+	Process(target=train_mnist_worker, args=(params)).start()
         return {'success': 1}
 
 def train_mnist_worker(params):
