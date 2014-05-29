@@ -24,7 +24,7 @@ def train_mnist(net_id='nn', params={}):
 	Process(target=train_mnist_worker, args=(net_id, params)).start()
         return {'success': 1}
 
-def train_mnist_worker(net_id, params):
+def train_mnist_worker(params):
     net_id = params.get('net-id', 'nn')
     layers = [784]
     layers.extend(params.get('layers', [15]))
