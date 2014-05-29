@@ -54,12 +54,13 @@ def delete():
         net_id = 'nn'
     else:
         net_id = request.get_json().get('net-id', 'nn')
+    if net_id == 'nn': return jsonify(success=0, message='nn cannot be deleted')
     count=0
     for key in redis.keys():
         if key.split('-')[0]==net_id:
             count += redis.delete(key)
     sccs = 1 if count > 0 else 1
-    return jsonify({'success': sccs, 'message': '%d records from net %s deleted' % (count, net_id)})
+    return jsonify(success=sccs, message='%d records from net %s deleted' % (count, net_id)})
 
 @app.route("/recognize-pattern", methods=["POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
