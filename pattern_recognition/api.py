@@ -7,58 +7,68 @@
 #### Libraries
 # Standard library
 import os
-import flask-cors
 import simplejson as json
 from flask import Flask
 from flask import request
-from flask import Response
+from flask import jsonify
+from flask_cors import cross_origin
 
 # My library
 import net_runner
-from redis_connector import redis
+from redis_connector import redis, redis_key
 
 
 app = Flask(__name__)
+app.debug=True
 app.config['CORS_ORIGINS'] = ['http://kressi.github.io']
 
 @app.route("/")
 def index():
-  return 'Github project of <a href="https://github.com/kressi/neural_net">neural_net</a>'
+    return 'Github project of <a href="https://github.com/kressi/neural_net">neural_net</a>'
 
 @app.route("/api")
 @cross_origin(headers=['Content-Type'])
 def api():
-  pretty_api=json.dumps({'train_with_mnist': 'http://neural-net.herokuapp.com/train-mnist',
-                         'train': 'http://neural-net.herokuapp.com/train',
-                         'reset_neural_net': 'http://neural-net.herokuapp.com/reset',
-                         'recognize_pattern': 'http://neural-net.herokuapp.com/recognize-pattern'
-                        }, sort_keys=True, indent=4 * ' ')
-  return Response(pretty_api, mimetype='application/json')
+    return jsonify( train_with_mnist='http://neural-net.herokuapp.com/train-mnist',
+                    train='http://neural-net.herokuapp.com/train',
+                    delete_neural_net='http://neural-net.herokuapp.com/delete',
+                    recognize_pattern='http://neural-net.herokuapp.com/recognize-pattern' )
 
-@app.route("/train-mnist")
+@app.route("/train-mnist", methods=["GET", "POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def train_mnist():
-  return net_runner.train_mnist()
+    if request.method == 'GET':
+        return jsonify(net_runner.train_mnist())
+    else:
+        return jsonify(net_runner.train_mnist(request.get_json()))
 
-@app.route("/train", methods=["POST"])
+@app.route("/train", methods=["POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def train():
-  return "train neural net with single letter - not implemented yet"
+    return jsonify(success=0, message='not implemented yet')
 
-@app.route("/reset")
+@app.route("/delete", methods=["GET", "POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
-def reset():
-  count=redis.delete('nn-status')
-  return "net reset, %d records deleted from redis" % count
+def delete():
+    if request.method == 'GET':
+        net_id = 'nn'
+    else:
+        net_id = request.get_json().get('net-id', 'nn')
+    count=0
+    for key in redis.keys():
+        if key.split('-')[0]==net_id:
+            count += redis.delete(key)
+    sccs = 1 if count > 0 else 1
+    return jsonify({'success': sccs, 'message': '%d records from net %s deleted' % (count, net_id)})
 
-@app.route("/recognize-pattern", methods=["POST"])
+@app.route("/recognize-pattern", methods=["POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def recognize():
-  pattern = request.get_json()['pattern']
-  result = net_runner.recognize_pattern(pattern)
-  return Response(str(result), mimetype='application/json')
+    pattern = request.get_json()['pattern']
+    result = net_runner.recognize_pattern(pattern)
+    return jsonify(result)
 
 if __name__ == "__main__":
-  port = int(os.environ.get("PORT", 5000))
-  app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
