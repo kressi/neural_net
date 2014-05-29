@@ -69,16 +69,16 @@ def recognize():
     result = net_runner.recognize_pattern(pattern)
     return jsonify(result)
 
-@app.route("/list-nets", methods=["POST", "OPTIONS"])
+@app.route("/list-nets", methods=["GET", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def list_nets():
     nets = filter(lambda x: x.split('-')[-1] == 'data', redis.keys())
     if nets.__len__() <= 0:
         return jsonify(success = 0, message = 'no trained nets found')
     else:
-        net_ids = list(x.split('-')[0] for x in nets)
-        net_params = (redis.get(redis_key('params', key)) for key in net_ids)
-        return jsonify(nets=net_ids)
+        net_ids = (x.split('-')[0] for x in nets)
+        net_params = dict((key, json.loads(redis.get(redis_key('params', key)))) for key in net_ids)
+        return jsonify(nets=net_params)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
