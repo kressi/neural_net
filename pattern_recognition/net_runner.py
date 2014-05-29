@@ -48,10 +48,11 @@ def train_mnist_worker(net_id, params):
 
 def recognize_pattern(pattern, net_id='nn'):
     redis.keys()
-    if not redis.exists(redis_key('status', net_id)):
-        return 'net not trained'
-    elif redis.get(redis_key('status', net_id)) != 'train_mnist: trained':
-        return 'training of net not finished'
+    status = redis.get(redis_key('status', net_id))
+    if status == None:
+        return {'success': 0, 'message': 'net not trained'}
+    elif status != 'train_mnist: trained':
+        return {'success': 0, 'message': status}
     else:
         net = loads(redis.get(redis_key('data', net_id)))
         data = np.zeros((784,1),dtype=float)
