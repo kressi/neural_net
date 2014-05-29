@@ -59,7 +59,7 @@ def recognize_pattern(pattern, net_id='nn'):
         for i, v in enumerate(pattern):
             if v != 0:
                 data[i][0] = float(v)
-        distribution = net.feedforward(data)
+        distribution = list(x[0] for x in net.feedforward(data))
         number = np.argmax(distribution)
         return {'success': 1, 'result': number, 'distribution': distribution }
 
