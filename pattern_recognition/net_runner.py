@@ -16,8 +16,21 @@ from network import Network, loads
 from mnist_loader import load_data_wrapper
 from redis_connector import redis, redis_key
 
-
+#### Train a new neural net
 def train_mnist(params={}):
+    """In case network has not been trained a worker
+    process will be started and success is returned.
+    Success in that situation does not mean the net could
+    be trained successfully, this currently cannot be checked.
+    The net has finished training as soon as the <net-id>-data
+    entry has been made and it shows up in list-nets.
+    :params['net-id']: default 'nn'
+    :params['epochs']: default 1
+    :params['mini-batch-size']: default 4
+    :params['lmbda']: 0.0001
+    :params['eta']: 0.1
+    :params['layers']: [15]
+    """
     clean_params(params)
     if 'net-id' not in params.keys():
         params['net-id']='nn'
@@ -54,6 +67,18 @@ def train_mnist_worker(params):
     redis.set(redis_key('data', net_id), net.tostring())
     redis.set(redis_key('status', net_id), 'train_mnist: trained')
 
+#### List trained nets
+def list_nets():
+    """Returns a list of all trained nets and the parameters
+    they were created with.
+    """
+    nets = filter(lambda x: x.split('-')[-1] == 'data', redis.keys())
+    if nets.__len__() > 0:
+        net_ids = (x[:x.rfind('-')] for x in nets)
+        nets = dict((key, json.loads(redis.get(redis_key('params', key)))) for key in net_ids)
+        return nets
+
+#### Recognize pattern
 def recognize_pattern(params):
     clean_params(params)
     net_id = params.get('net-id', 'nn')
@@ -73,7 +98,10 @@ def recognize_pattern(params):
         number = np.argmax(distribution)
         return {'success': 1, 'result': number, 'distribution': distribution }
 
+#### Helper Functions
 def clean_params(params):
+    """Delete empty strings and None entries from dict
+    """
     for key, value in params.items():
         if value in [None, ""]:
             del params[key]
