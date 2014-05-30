@@ -148,7 +148,7 @@ function printResult(data,b,c){
   }
 }
 function printError(a,b,error){
-  window.alert("Something went wrong. Pease try again.");
+  window.alert("Something went wrong. Please try again.");
 }
 
 function createOptions(data,x,y){
@@ -162,7 +162,7 @@ function createOptions(data,x,y){
 }
 
 function createNetInfo(data){
-  var htmlString3 = "<table class=\"table table-striped\"><tr><th>Net ID</th><th>Epoches</th><th>Lmbda</th><th>ETA</th><th>Number of Neurons in the Hidden Layer</th><th>Mini Batch Size</th></tr>";
+  var htmlString3 = "<table class=\"table table-striped\"><tr><th>Net ID</th><th>Epoches</th><th>Lmbda</th><th>ETA</th><th>No. of Neurons (Hidden Layer)</th><th>Mini Batch Size</th></tr>";
   $.each(data.nets,function(key,value){
     var netObj = data.nets[key];
     var numberOfNeurons = 0;
