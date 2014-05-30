@@ -162,14 +162,19 @@ function createOptions(data,x,y){
 }
 
 function createNetInfo(data){
-  var htmlString3 = "<table class=\"table table-striped\"><tr><th>Net ID</th><th>Epoches</th><th>Lmbda</th><th>ETA</th><th>Number of Layers</th><th>Mini Batch Size</th></tr>";
+  var htmlString3 = "<table class=\"table table-striped\"><tr><th>Net ID</th><th>Epoches</th><th>Lmbda</th><th>ETA</th><th>Number of Neurons in the Hidden Layer</th><th>Mini Batch Size</th></tr>";
   $.each(data.nets,function(key,value){
     var netObj = data.nets[key];
+    var numberOfNeurons = 0;
+    $.each(data.nets[key].layers, function(key2, value2){
+      numberOfNeurons += value2;
+    });
+    numberOfNeurons -= 794; //number of neurons used in the input and outputlayers
     htmlString3 += "<tr><td>"+key+"</td>";
     htmlString3 +=  "<td>"+data.nets[key].epochs+"</td>";
     htmlString3 +=  "<td>"+data.nets[key].lmbda+"</td>";
     htmlString3 +=  "<td>"+data.nets[key].eta+"</td>";
-    htmlString3 +=  "<td>"+data.nets[key].layers.length+"</td>";
+    htmlString3 +=  "<td>"+numberOfNeurons+"</td>";
     htmlString3 +=  "<td>"+data.nets[key].mini_batch_size+"</td></tr>";
   })
   htmlString3 += "</table>";
