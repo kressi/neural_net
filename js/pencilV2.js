@@ -115,7 +115,7 @@ function fillArray(){
   } 
   
   var jsonArray = JSON.stringify({"pattern":pixelArray,"net-id":$("#netList option:selected").text()});
-  
+
   $.ajax({
     type: 'POST',
     url: 'http://neural-net.herokuapp.com/recognize-pattern',
@@ -134,13 +134,13 @@ function fillArray(){
 function printResult(data,b,c){
   if (data.success == 1){
     var htmlString = "<div class=\"col-lg-3\"><h3>Result</h3><p class=\"bigandfat\">"+data.result+"</p></div>"; 
-    htmlString += "<div class=\"col-lg-3\"><h3>Distribution</h3><table class=\"table table-striped\"><tr><th>Number</th><th>Probability</tr>";
+    htmlString += "<div class=\"col-lg-3\"><h3>Distribution</h3><table class=\"table table-striped\"><tr><th>Number</th><th>Output</tr>";
     for (var i=0;i<data.distribution.length;i++){
-      var prob = data.distribution[i] * 100;
-      if (prob < 1){
-        htmlString += "<tr><td>"+i+"</td><td><1</td></tr>";
+      var prob = data.distribution[i];
+      if (prob < 0.001){
+        htmlString += "<tr><td>"+i+"</td><td><0.001</td></tr>";
       }else{
-        htmlString += "<tr><td>"+i+"</td><td>"+prob+"%</td></tr>";
+        htmlString += "<tr><td>"+i+"</td><td>"+prob+"</td></tr>";
       }
     }
     htmlString += "</table></div>";

@@ -14,16 +14,11 @@ function init(){
 }
 
 function postCreate(){
-	var obj = {};
-	obj.net_id = $("#net-id").val();
-	obj.epochs = $("#epochs").val();
-	obj.eta = $("#eta").val();
-	obj.lmbda = $("#lmbda").val();
-	var jsonArray = JSON.stringify(
+	var jsonArray = JSON.stringify({
 		"net-id":$("#net-id").val()
 		,"epochs":$("#epochs").val()
 		,"eta":$("#eta").val()
-		,"lmbda":$("#lmbda").val());
+		,"lmbda":$("#lmbda").val()});
 
   	$.ajax({
 	    type: 'POST',
@@ -48,7 +43,9 @@ function printError(a,b,error){
 function createOptions(data,x,y){
 	var htmlString = "";
 	$.each(data.nets,function(key,value){
-		htmlString += "<option>"+key+"<option>";
+		if (key.length > 0){		
+			htmlString += "<option>"+key+"<option>";
+		}
 	});
 	$("#netList").html(htmlString);
 }
