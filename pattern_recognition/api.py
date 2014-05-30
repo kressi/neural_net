@@ -8,9 +8,7 @@
 # Standard library
 import os
 import simplejson as json
-from flask import Flask
-from flask import request
-from flask import jsonify
+from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 
 # My library
