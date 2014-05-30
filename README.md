@@ -25,7 +25,7 @@ all attributes except success are optional.
 | net-id          | string  |           | containing id of neural-net. default: 'nn'
 | epochs          | integer |           | number of epochs the neural net has to be trained for. with other values default one epoche takes around 50s to be trained. default: 30
 | mini-batch-size | integer |           | training sets, after how many patterns the result is back propagated. default: 4
-| eta             | float   | >= 0, \<1 |
+| eta             | float   | >0        | learning rate of the net
 | lmbda           | float   | >0, \<1   |
 | pattern         | array   | >=0, <=1  | resolution of pattern is 28x28 pixels, each pixel is represented by a float value between 0 (white) and 1 (black). the array consists of all the rows appended to each other: [row1, row2, row3 ..., row28], an array of dimension (1,784)
 | result          | integer | 0-9       | the number the neural net recognized in the pattern
