@@ -17,11 +17,13 @@ function init(){
 }
 
 function postCreate(){
+
 	var jsonArray = JSON.stringify({
 		"net-id":$("#net-id").val()
 		,"epochs":$("#epochs").val()
 		,"eta":$("#eta").val()
-		,"lmbda":$("#lmbda").val()});
+		,"lmbda":$("#lmbda").val()
+		,"layers":$("#layers").val().split(",")});
 
   	$.ajax({
 	    type: 'POST',
