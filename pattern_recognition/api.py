@@ -66,8 +66,8 @@ def delete():
 @app.route("/recognize-pattern", methods=["POST", "OPTIONS"])
 @cross_origin(headers=['Content-Type'])
 def recognize():
-    pattern = request.get_json()['pattern']
-    result = net_runner.recognize_pattern(pattern)
+    params = request.get_json()
+    result = net_runner.recognize_pattern(params)
     return jsonify(result)
 
 @app.route("/list-nets", methods=["GET", "OPTIONS"])
