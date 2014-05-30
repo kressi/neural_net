@@ -20,8 +20,9 @@ from redis_connector import redis, redis_key
 def train_mnist(params={}):
     if 'net-id' not in params.keys():
         params['net-id']='nn'
-    if redis.exists(redis_key('status', params['net-id'])):
-        return {'success': 0, 'message': redis.get(redis_key('status', net_id))}
+    r_key = redis_key('status', params['net-id'])
+    if redis.exists(r_key):
+        return {'success': 0, 'message': redis.get(r_key)}
     else:
 	Process(target=train_mnist_worker, args=(params,)).start()
         return {'success': 1}
