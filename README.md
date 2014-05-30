@@ -117,7 +117,7 @@ response:
 }
 ```
 
-**list-nets** (PUT)
+**list-nets** (GET)
 
 request: empty
 
