@@ -1,6 +1,8 @@
 """
-train_mnist
+net_runner.py
 ~~~~~~~~~~~~~~
+Manages networks on Redis and loads stored networks
+to recognize patterns.
 
 """
 
@@ -77,6 +79,17 @@ def list_nets():
         net_ids = (x[:x.rfind('-')] for x in nets)
         nets = dict((key, json.loads(redis.get(redis_key('params', key)))) for key in net_ids)
         return nets
+
+#### Delete all to net-id related redis entries
+def delete_net(net_id):
+    if net_id[:2] == 'nn':
+      return {'success': 0, 'messag': 'nn cannot be deleted'}
+    count=0
+    for key in redis.keys():
+        if key[:key.rfind('-')] == net_id:
+            count += redis.delete(key)
+    sccs = 1 if count > 0 else 0
+    return {'success': sccs, 'message': '%d records from net %s deleted' % (count, net_id)}
 
 #### Recognize pattern
 def recognize_pattern(params):

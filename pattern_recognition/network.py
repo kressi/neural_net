@@ -1,4 +1,4 @@
-"""network2.py
+"""network.py
 ~~~~~~~~~~~~~~
 
 An improved version of network.py, implementing the stochastic
