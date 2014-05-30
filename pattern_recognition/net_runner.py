@@ -46,7 +46,7 @@ def train_mnist(params={}):
 def train_mnist_worker(params):
     net_id = params.get('net-id', 'nn')
     layers = [784]
-    layers.extend(params.get('layers', [15]))
+    layers.extend([int(i) for i in params.get('layers', [15])])
     layers.append(10)
     net_params                    = {}
     net_params['epochs']          = int(params.get('epochs', 1))
