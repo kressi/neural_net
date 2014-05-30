@@ -52,8 +52,9 @@ def train_mnist_worker(params):
     redis.set(redis_key('data', net_id), net.tostring())
     redis.set(redis_key('status', net_id), 'train_mnist: trained')
 
-def recognize_pattern(pattern, net_id='nn'):
-    redis.keys()
+def recognize_pattern(params):
+    net_id = params.get('net-id', 'nn')
+    pattern = params.get('pattern')
     status = redis.get(redis_key('status', net_id))
     if status == None:
         return {'success': 0, 'message': 'net not trained'}
