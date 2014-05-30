@@ -22,7 +22,6 @@ function postCreate(){
 		"net-id":$("#net-id").val()
 		,"epochs":$("#epochs").val()
 		,"eta":$("#eta").val()
-		,"lmbda":$("#lmbda").val()
 		,"layers":$("#layers").val().split(",")});
 
   	$.ajax({
