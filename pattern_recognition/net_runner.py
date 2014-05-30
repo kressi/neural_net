@@ -18,6 +18,7 @@ from redis_connector import redis, redis_key
 
 
 def train_mnist(params={}):
+    clean_params(params)
     if 'net-id' not in params.keys():
         params['net-id']='nn'
     r_key = redis_key('status', params['net-id'])
@@ -33,10 +34,10 @@ def train_mnist_worker(params):
     layers.extend(params.get('layers', [15]))
     layers.append(10)
     net_params                    = {}
-    net_params['epochs']          = params.get('epochs', 1)
-    net_params['mini_batch_size'] = params.get('mini-batch-size', 4)
-    net_params['eta']             = params.get('eta', 0.1)
-    net_params['lmbda']           = params.get('lmbda', 0.0001)
+    net_params['epochs']          = int(params.get('epochs', 1))
+    net_params['mini_batch_size'] = int(params.get('mini-batch-size', 4))
+    net_params['eta']             = float(params.get('eta', 0.1))
+    net_params['lmbda']           = float(params.get('lmbda', 0.0001))
     net_params['layers']          = layers
 
     redis.set(redis_key('params', net_id), json.dumps(net_params))
@@ -54,6 +55,7 @@ def train_mnist_worker(params):
     redis.set(redis_key('status', net_id), 'train_mnist: trained')
 
 def recognize_pattern(params):
+    clean_params(params)
     net_id = params.get('net-id', 'nn')
     pattern = params.get('pattern')
     status = redis.get(redis_key('status', net_id))
@@ -71,5 +73,7 @@ def recognize_pattern(params):
         number = np.argmax(distribution)
         return {'success': 1, 'result': number, 'distribution': distribution }
 
-if __name__ == "__main__":
-    train_mnist()
+def clean_params(params):
+    for key, value in params.items():
+        if value in [None, ""]:
+            del params[key]
