@@ -1,6 +1,9 @@
 init();
 
 function init(){
+
+	$("#createNN").click(postCreate);
+
 	$.ajax({
     type: 'GET',
     url: 'http://neural-net.herokuapp.com/list-nets',
@@ -10,7 +13,6 @@ function init(){
     error: printError
   });  
 
-	$("#createNN").click(postCreate);
 }
 
 function postCreate(){
@@ -31,9 +33,16 @@ function postCreate(){
 	    error: printError
   	});	
 
-}
+ }
+
+
+
 function printSuccess(data,a,b){
-	window.alert(data.message);
+	if (data.success==1){
+		window.alert("Neural Net is training");
+	}else{
+		window.alert(data.message);
+	}
 }
 
 function printError(a,b,error){

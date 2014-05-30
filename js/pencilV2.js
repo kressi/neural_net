@@ -157,4 +157,21 @@ function createOptions(data,x,y){
     htmlString2 += "<option>"+key+"<option>";
   });
   $("#netList").html(htmlString2);
+
+  createNetInfo(data);
+}
+
+function createNetInfo(data){
+  var htmlString3 = "<table class=\"table table-striped\"><tr><th>Net ID</th><th>Epoches</th><th>Lmbda</th><th>ETA</th><th>Number of Layers</th><th>Mini Batch Size</th></tr>";
+  $.each(data.nets,function(key,value){
+    var netObj = data.nets[key];
+    htmlString3 += "<tr><td>"+key+"</td>";
+    htmlString3 +=  "<td>"+data.nets[key].epochs+"</td>";
+    htmlString3 +=  "<td>"+data.nets[key].lmbda+"</td>";
+    htmlString3 +=  "<td>"+data.nets[key].eta+"</td>";
+    htmlString3 +=  "<td>"+data.nets[key].layers.length+"</td>";
+    htmlString3 +=  "<td>"+data.nets[key].mini_batch_size+"</td></tr>";
+  })
+  htmlString3 += "</table>";
+  $("#netInfos").html(htmlString3);
 }
