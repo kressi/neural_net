@@ -3,6 +3,7 @@ init();
 function init(){
 
 	$("#createNN").click(postCreate);
+	$("#deleteNN").click(postDelete);
 
 	$.ajax({
     type: 'GET',
@@ -35,11 +36,25 @@ function postCreate(){
 
  }
 
+function postDelete(){
+	var jsonArray = JSON.stringify({"net-id":$("#netList option:selected").text()});
 
+  	$.ajax({
+	    type: 'POST',
+	    url: 'http://neural-net.herokuapp.com/delete',
+	    contentType: 'application/json',
+	    crossDomain: true,
+	    data: jsonArray,
+	    dataType: 'json',
+	    success: printSuccess,	
+	    error: printError
+  	});	
+
+ }
 
 function printSuccess(data,a,b){
 	if (data.success==1){
-		window.alert("Neural Net is training");
+		window.alert("It worked!");
 	}else{
 		window.alert(data.message);
 	}
