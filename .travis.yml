@@ -13,10 +13,17 @@ install:
 
 script: nosetests pattern_recognition/test
 
-deploy:
-  provider: heroku
-  strategy: git
-  app:
-    master: neural-net
-  api_key: b3f1822f-cc5b-459f-a7d6-d13ded0db51d
+# Travis does shallow clones with depth = 50, older git versions do not
+# allow making clones from a shallow remote.
+# Github must be deployed with strategy git, because default strategy anvil
+# does not suppert custom buildpacks. Heroku, however, seems to use an
+# older Version of git, since it cannot clone from the shallow repo on
+# travis. Therefore, deployment is done manually.
+#
+#deploy:
+#  provider: heroku
+#  strategy: git
+#  app:
+#    master: neural-net
+#  api_key: b3f1822f-cc5b-459f-a7d6-d13ded0db51d
 
