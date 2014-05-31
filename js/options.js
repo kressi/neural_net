@@ -69,7 +69,7 @@ function createOptions(data,x,y){
 	var htmlString = "";
 	$.each(data.nets,function(key,value){
 		if (key.length > 0){		
-			htmlString += "<option>"+key+"<option>";
+			htmlString += "<option>"+key+"</option>";
 		}
 	});
 	$("#netList").html(htmlString);

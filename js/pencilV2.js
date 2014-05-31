@@ -154,7 +154,7 @@ function printError(a,b,error){
 function createOptions(data,x,y){
   var htmlString2 = "";
   $.each(data.nets,function(key,value){
-    htmlString2 += "<option>"+key+"<option>";
+    htmlString2 += "<option>"+key+"</option>";
   });
   $("#netList").html(htmlString2);
 
